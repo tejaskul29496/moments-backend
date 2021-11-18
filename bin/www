@@ -1,0 +1,31 @@
+const app = require("../app");
+const http = require("http");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+dotenv.config();
+
+const port = process.env.PORT || 3000
+app.set("port", port);
+
+const server = http.createServer(app);
+server.listen(port, () => {
+    console.log("HTTP Server running on port:", port);
+});
+
+mongoose
+    .connect(
+        `mongodb+srv://admin:YEWBYgy78z6Db7vQ@cluster0.ggess.mongodb.net/testdb?retryWrites=true&w=majority`,
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        }
+    )
+    .then(() => {
+        console.log("\nMONGODB DATABASE CONNECTED\n");
+    })
+    .catch((e) => {
+        console.log("Connection failed!", e);
+    });
+
+
+    // mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@${process.env.MONGO_DB_HOST}/${process.env.MONGO_DB_NAME}?retryWrites=true&w=majority
